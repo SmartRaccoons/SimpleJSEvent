@@ -1,0 +1,6 @@
+{
+	"name"		: "simple.event",
+	"version"	: "0.0.1",
+	"description"	: "Event emitter coffeescript style",
+	"main"		: "simple.event.js"
+}
