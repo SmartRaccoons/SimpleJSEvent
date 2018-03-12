@@ -1,12 +1,14 @@
 class SimpleEvent
-  constructor: ->
-    @_events = {}
 
   bind: (event, fct) ->
+    if !@_events
+      @_events = {}
     @_events[event] = @_events[event] or []
     @_events[event].push fct
 
   unbind: (event, fct) ->
+    if !@_events
+      return
     if not event
       return @_events = {}
     if not fct
@@ -16,6 +18,8 @@ class SimpleEvent
     @_events[event].splice @_events[event].indexOf(fct), 1
 
   trigger: (event) ->
+    if !@_events
+      return
     args = Array::slice.call(arguments, 1)
     ['all', event].filter (ev)=> !!@_events[ev]
     .forEach (ev)=>

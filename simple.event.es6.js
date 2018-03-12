@@ -3,16 +3,18 @@
   var SimpleEvent;
 
   SimpleEvent = class SimpleEvent {
-    constructor() {
-      this._events = {};
-    }
-
     bind(event, fct) {
+      if (!this._events) {
+        this._events = {};
+      }
       this._events[event] = this._events[event] || [];
       return this._events[event].push(fct);
     }
 
     unbind(event, fct) {
+      if (!this._events) {
+        return;
+      }
       if (!event) {
         return this._events = {};
       }
@@ -27,6 +29,9 @@
 
     trigger(event) {
       var args;
+      if (!this._events) {
+        return;
+      }
       args = Array.prototype.slice.call(arguments, 1);
       return ['all', event].filter((ev) => {
         return !!this._events[ev];

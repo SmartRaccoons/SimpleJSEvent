@@ -3,16 +3,20 @@
   var SimpleEvent;
 
   SimpleEvent = (function() {
-    function SimpleEvent() {
-      this._events = {};
-    }
+    function SimpleEvent() {}
 
     SimpleEvent.prototype.bind = function(event, fct) {
+      if (!this._events) {
+        this._events = {};
+      }
       this._events[event] = this._events[event] || [];
       return this._events[event].push(fct);
     };
 
     SimpleEvent.prototype.unbind = function(event, fct) {
+      if (!this._events) {
+        return;
+      }
       if (!event) {
         return this._events = {};
       }
@@ -27,6 +31,9 @@
 
     SimpleEvent.prototype.trigger = function(event) {
       var args;
+      if (!this._events) {
+        return;
+      }
       args = Array.prototype.slice.call(arguments, 1);
       return ['all', event].filter((function(_this) {
         return function(ev) {
