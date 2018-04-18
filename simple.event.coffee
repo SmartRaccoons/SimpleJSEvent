@@ -25,11 +25,13 @@
     fn_c = => fn.call(@, arguments)
     object.bind event, fn_c
     @__events_to.push => object.unbind event, fn_c
+    @
 
   unbind_to: ->
     if @__events_to
       while fn = this.__events_to.shift()
         fn()
+    @
 
   trigger: (event) ->
     if !@_events
