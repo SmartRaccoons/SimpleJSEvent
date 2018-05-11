@@ -38,7 +38,7 @@
       }
       fn_c = (function(_this) {
         return function() {
-          return fn.call(_this, arguments);
+          return fn.apply(_this, arguments);
         };
       })(this);
       object.bind(event, fn_c);

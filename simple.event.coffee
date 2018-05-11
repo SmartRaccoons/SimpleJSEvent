@@ -22,7 +22,7 @@
   bind_to: (object, event, fn)->
     if !@__events_to
       @__events_to = []
-    fn_c = => fn.call(@, arguments)
+    fn_c = => fn.apply(@, arguments)
     object.bind event, fn_c
     @__events_to.push => object.unbind event, fn_c
     @
