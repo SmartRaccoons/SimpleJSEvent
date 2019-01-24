@@ -91,4 +91,14 @@
 
   })();
 
+  SimpleEvent.prototype.on = SimpleEvent.prototype.bind;
+
+  SimpleEvent.prototype.off = SimpleEvent.prototype.unbind;
+
+  SimpleEvent.prototype.on_to = SimpleEvent.prototype.bind_to;
+
+  SimpleEvent.prototype.off_to = SimpleEvent.prototype.unbind_to;
+
+  SimpleEvent.prototype.emit = SimpleEvent.prototype.trigger;
+
 }).call(this);

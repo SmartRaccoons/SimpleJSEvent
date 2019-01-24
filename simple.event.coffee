@@ -48,3 +48,9 @@
     @unbind_to()
     @unbind()
     @
+
+SimpleEvent::on = SimpleEvent::bind
+SimpleEvent::off = SimpleEvent::unbind
+SimpleEvent::on_to = SimpleEvent::bind_to
+SimpleEvent::off_to = SimpleEvent::unbind_to
+SimpleEvent::emit = SimpleEvent::trigger
