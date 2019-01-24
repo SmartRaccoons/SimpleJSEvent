@@ -23,8 +23,9 @@
     if !@__events_to
       @__events_to = []
     fn_c = => fn.apply(@, arguments)
-    object.bind event, fn_c
-    @__events_to.push => object.unbind event, fn_c
+    object[ if object.bind then 'bind' else 'on' ] event, fn_c
+    @__events_to.push =>
+      object[ if object.unbind then 'unbind' else 'off' ] event, fn_c
     @
 
   unbind_to: ->

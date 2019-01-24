@@ -41,10 +41,10 @@
           return fn.apply(_this, arguments);
         };
       })(this);
-      object.bind(event, fn_c);
+      object[object.bind ? 'bind' : 'on'](event, fn_c);
       this.__events_to.push((function(_this) {
         return function() {
-          return object.unbind(event, fn_c);
+          return object[object.unbind ? 'unbind' : 'off'](event, fn_c);
         };
       })(this));
       return this;
