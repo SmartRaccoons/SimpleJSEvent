@@ -1,17 +1,38 @@
 (exports ? this).SimpleEvent = class SimpleEvent
-
-  bind: (event, fct) ->
+  __init: ->
     if !@_events
       @_events = {}
+    if !@__events_asterisk
+      @__events_asterisk = {}
+
+  __bind_asterisk: (event, fct)->
+    @__events_asterisk[event] = @__events_asterisk[event] or []
+    @__events_asterisk[event].push fct
+    @
+
+  bind: (event, fct) ->
+    @__init()
+    if event.indexOf('*') >= 0
+      return @__bind_asterisk event.split('*')[0], fct
     @_events[event] = @_events[event] or []
     @_events[event].push fct
     @
 
-  unbind: (event, fct) ->
-    if !@_events
+  __unbind_asterisk: (event, fct)->
+    if not fct
+      return delete @__events_asterisk[event]
+    if not @__events_asterisk[event]
       return
+    @__events_asterisk[event].splice @__events_asterisk[event].indexOf(fct), 1
+
+  unbind: (event, fct) ->
+    @__init()
+    if event and event.indexOf('*') >= 0
+      return @__unbind_asterisk event.split('*')[0], fct
     if not event
-      return @_events = {}
+      @__events_asterisk = {}
+      @_events = {}
+      return
     if not fct
       return delete @_events[event]
     if not @_events[event]
@@ -34,9 +55,16 @@
         fn()
     @
 
+  __trigger_asterisk: (event)->
+    args = Array::slice.call(arguments, 1)
+    Object.keys(@__events_asterisk).forEach (ev)=>
+      if event.indexOf(ev) isnt 0
+        return
+      @__events_asterisk[ev].forEach (fn)=> fn.apply(@, [event.split(ev)[1]].concat(args))
+
   trigger: (event) ->
-    if !@_events
-      return
+    @__init()
+    @__trigger_asterisk.apply(@, Array::slice.call(arguments, 0))
     args = Array::slice.call(arguments, 1)
     ['all', event].filter (ev)=> !!@_events[ev]
     .forEach (ev)=>
