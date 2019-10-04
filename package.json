@@ -1,6 +1,6 @@
 {
 	"name": "simple.event",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Event emitter coffeescript style",
 	"main": "simple.event.js",
 	"dependencies": {
